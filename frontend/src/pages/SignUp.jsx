@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons"; // Import faEnvelope for email icon
+import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import LOGO from "../assets/logo.svg";
 import waveImg from "../assets/wave.png";
 import avatarImg from "../assets/avatar.svg";
 import unlockImg from "../assets/unlock.svg";
@@ -23,7 +24,10 @@ export default function SignUp() {
         <form className="flex flex-col justify-center items-center w-1/2">
           <img src={avatarImg} className="w-32" alt="Avatar" />
           <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">
-            Welcome to ShopKart
+            Welcome to
+            <span>
+              <img src={LOGO} alt="logo" width={180} className="mx-4 inline" />
+            </span>
           </h2>
           <div className="relative">
             <FontAwesomeIcon
