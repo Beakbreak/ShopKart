@@ -1,10 +1,13 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 
 export default function App() {
   return (
-    <div>
-      <h1>React App</h1>
-    </div>
+    <Routes>
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
