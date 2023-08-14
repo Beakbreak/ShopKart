@@ -9,7 +9,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      display: ["Nunito", "sans-serif"],
+      display: ["DM Sans", "sans-serif"],
     },
   },
   plugins: [],
