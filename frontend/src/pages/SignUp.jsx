@@ -26,7 +26,7 @@ export default function SignUp() {
           <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">
             Welcome to
             <span>
-              <img src={LOGO} alt="logo" width={180} className="mx-4 inline" />
+              <img src={LOGO} alt="logo" width={180} className="mx-2 inline" />
             </span>
           </h2>
           <div className="relative">
@@ -66,7 +66,7 @@ export default function SignUp() {
             href="#"
             className="py-3 px-20 bg-primarycolor rounded-full text-white font-bold uppercase text-lg mt-6 transform hover:translate-y-1 transition-all duration-500"
           >
-            Sign Up
+            SignUp
           </a>
           <div className="mt-4 text-lg font-display font-semibold text-gray-700 text-center dark:text-white">
             Already have an account?{" "}

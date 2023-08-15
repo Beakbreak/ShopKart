@@ -24,7 +24,7 @@ export default function Login() {
           <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">
             Welcome to
             <span>
-              <img src={LOGO} alt="logo" width={180} className="mx-4 inline" />
+              <img src={LOGO} alt="logo" width={180} className="mx-2 inline" />
             </span>
           </h2>
           <div className="relative">
@@ -35,7 +35,7 @@ export default function Login() {
             <input
               type="text"
               placeholder="Username"
-              className="pl-8 border-b-2 font-display focus:outline-none focus:border-primarycolor transition-all duration-500 capitalize text-lg"
+              className="pl-8 border-b-2 font-display focus:outline-none focus:border-primarycolor transition-all duration-500 text-lg"
             />
           </div>
           <div className="relative mt-8">
@@ -46,7 +46,7 @@ export default function Login() {
             <input
               type="password"
               placeholder="Password"
-              className="pl-8 border-b-2 font-display focus:outline-none focus:border-primarycolor transition-all duration-500 capitalize text-lg"
+              className="pl-8 border-b-2 font-display focus:outline-none focus:border-primarycolor transition-all duration-500 text-lg"
             />
           </div>
           <a

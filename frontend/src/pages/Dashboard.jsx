@@ -58,7 +58,7 @@ export default function Dashboard() {
         ) : (
           <Grid container spacing={4} className="px-8 mb-8">
             {productsData.map((product) => (
-              <Grid item xs={12} sm={4} md={3} key={product.id}>
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
                 <ProductCard product={product} />
               </Grid>
             ))}
