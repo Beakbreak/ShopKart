@@ -68,6 +68,18 @@ const cartReducer = (state, action) => {
         ...defaultItemList,
       };
 
+    case "set-items":
+      return {
+        ...state,
+        items: action.items,
+      };
+
+    case "set-total-amount":
+      return {
+        ...state,
+        totalAmount: action.totalAmount,
+      };
+
     default:
       return state;
   }
@@ -88,12 +100,22 @@ const CartProvider = (props) => {
     dispatch({ type: "clear-cart" });
   };
 
+  const setItemsHandler = (items) => {
+    dispatch({ type: "set-items", items });
+  };
+
+  const setTotalAmountHandler = (totalAmount) => {
+    dispatch({ type: "set-total-amount", totalAmount });
+  };
+
   const cartContext = {
     items: state.items,
     totalAmount: state.totalAmount,
     addItem: addItemHandler,
     removeItem: removeItemHandler,
     clearCart: clearCartHandler,
+    setItems: setItemsHandler,
+    setTotalAmount: setTotalAmountHandler,
   };
 
   return (

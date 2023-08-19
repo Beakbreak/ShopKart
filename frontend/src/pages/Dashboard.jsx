@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../components/Navbar";
-import backgroundImg from "../assets/background.jpg";
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import bgimg from "../assets/bgimg.jpg";
+import { Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import SkeletonCard from "../components/SkeletonCard";
+import CartContext from "../hooks/CartContext";
 
 export default function Dashboard() {
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  let ctx = useContext(CartContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,14 +26,21 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      ctx = storedCart;
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-8">
         <img
-          src={backgroundImg}
+          src={bgimg}
           alt="background"
-          className="w-screen h-[30rem] object-cover"
+          className="w-screen h-[25rem] object-cover px-8 md:h-[30rem]"
         />
       </div>
 
@@ -48,7 +57,7 @@ export default function Dashboard() {
           Products
         </Typography>
         {loading ? (
-          <Grid container spacing={4} className="px-8 mb-8">
+          <Grid container spacing={4} className="px-8 mb-16">
             {[...Array(12)].map((_, index) => (
               <Grid item xs={12} sm={4} md={3} key={index}>
                 <SkeletonCard />
@@ -56,7 +65,7 @@ export default function Dashboard() {
             ))}
           </Grid>
         ) : (
-          <Grid container spacing={4} className="px-8 mb-8">
+          <Grid container spacing={4} className="px-8 mb-16">
             {productsData.map((product) => (
               <Grid item xs={12} sm={6} md={3} key={product.id}>
                 <ProductCard product={product} />

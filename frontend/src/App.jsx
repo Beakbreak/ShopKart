@@ -1,15 +1,19 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
+import ProductPage from "./pages/ProductPage";
+import Footer from "./components/Footer";
+import Cart from "./pages/Cart";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<Cart />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }

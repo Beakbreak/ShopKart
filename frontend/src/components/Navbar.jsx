@@ -4,38 +4,59 @@ import LOGO from "../assets/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faRightFromBracket,
-  faUser,
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
-import PersonIcon from "@mui/icons-material/Person";
+import { styled, Button, Typography } from "@mui/material";
+import helpIcon from "../assets/helpIcon.svg";
+import googleIcon from "../assets/googleIcon.svg";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import axios from "axios";
+import { AuthProvider } from "../hooks/AuthContext";
 
-const pages = ["Sign Up"];
+const HelpButton = styled(Box)`
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+`;
+
+const GoogleButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-transform: none;
+  border: 4px solid rgba(66, 133, 244, 0.1);
+  border-radius: 8px;
+
+  &:hover {
+    border: 4px solid rgba(66, 133, 244, 0.1);
+    background-color: #fff;
+  }
+`;
+
+const ProfileContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user, validateToken } = React.useContext(AuthProvider);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -43,185 +64,153 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "#000" }}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#fff",
+        padding: "0.5rem 1rem 0 1rem",
+        boxShadow: "none",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <img
-              src={LOGO}
-              alt="logo"
-              width={180}
-              className="mr-4"
-              style={{ filter: "brightness(0) invert(1)" }}
-            />
+          <Box sx={{ flexGrow: 1 }}>
+            <Link to="/" className="text-decoration-none">
+              <img src={LOGO} alt="logo" width={180} />
+            </Link>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  component={Link}
-                  to={`/${page.toLowerCase().replace(" ", "")}`}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography variant="body1">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <img
-              src={LOGO}
-              alt="logo"
-              width={150}
-              style={{ filter: "brightness(0) invert(1)" }}
-            />
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                component={Link}
-                to={`/${page.toLowerCase().replace(" ", "")}`}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  fontSize: "1rem",
-                  fontWeight: 600,
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1.5rem",
+            }}
+          >
+            <HelpButton display={{ xs: "none", md: "flex" }}>
+              <img
+                src={helpIcon}
+                alt="help"
+                style={{ width: "1rem", height: "1rem" }}
+              />
+              <Typography variant="body1" color="rgba(0, 0, 0, 0.5)">
+                Help
+              </Typography>
+            </HelpButton>
+
+            {!user.isAuthenticated ? (
+              <GoogleButton
+                variant="outlined"
+                onClick={() => {
+                  window.location.href = new URL(
+                    "/api/v1/auth/google",
+                    BACKEND_URL
+                  ).href;
                 }}
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Remy Sharp"
+                <img
+                  src={googleIcon}
+                  alt="google"
+                  style={{ width: "1rem", height: "1rem" }}
+                />
+                <Typography
+                  variant="body1"
+                  color="rgba(0, 0, 0, 0.5)"
+                  sx={{ display: { xs: "none", md: "block" } }}
+                >
+                  Login with Google
+                </Typography>
+              </GoogleButton>
+            ) : (
+              <Box sx={{ flexGrow: 0 }}>
+                <ProfileContainer
                   sx={{
-                    backgroundColor: "#FFFFFF",
-                    width: { xs: "2rem", md: "2.5rem" },
-                    height: { xs: "2rem", md: "2.5rem" },
+                    cursor: "pointer",
+                    border: {
+                      xs: "none",
+                      md: "1px solid rgba(0, 0, 0, 0.5)",
+                    },
                   }}
                 >
-                  <PersonIcon
+                  <Avatar
+                    alt={user.userData?.name}
+                    src={user.userData?.profilePicture}
+                    onClick={handleOpenUserMenu}
                     sx={{
-                      color: "#262626",
-                      fontSize: { xs: "1.5rem", md: "2rem" },
+                      width: { xs: "2rem", md: "1.5rem" },
+                      height: { xs: "2rem", md: "1.5rem" },
+                      marginLeft: { xs: "0", md: "0.5rem" },
                     }}
                   />
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem>
-                <Link
-                  to="#"
-                  style={{
-                    textDecoration: "none",
-                    color: "#262626",
-                    fontSize: "1.2rem",
-                    fontWeight: "500",
-                    fontFamily: "Poppins",
+                  <Typography
+                    variant="body1"
+                    color="rgba(0, 0, 0, 0.5)"
+                    padding="0.5rem 1rem"
+                    textTransform="none"
+                    sx={{ display: { xs: "none", md: "block" } }}
+                  >
+                    Hi! {user.userData?.name}
+                  </Typography>
+                </ProfileContainer>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
                   }}
-                >
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    style={{
-                      marginRight: "0.5rem",
-                    }}
-                  />
-                  My Profile
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  to="#"
-                  style={{
-                    textDecoration: "none",
-                    color: "#262626",
-                    fontSize: "1.2rem",
-                    fontWeight: "500",
-                    fontFamily: "Poppins",
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
                   }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  <FontAwesomeIcon
-                    icon={faShoppingCart} // Use the shopping cart icon
-                    style={{
-                      marginRight: "0.5rem",
-                    }}
-                  />
-                  Cart
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  to="#"
-                  style={{
-                    textDecoration: "none",
-                    color: "#5A5A5A",
-                    fontSize: "1.2rem",
-                    fontWeight: "500",
-                    fontFamily: "Poppins",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faRightFromBracket}
-                    style={{
-                      marginRight: "0.5rem",
-                    }}
-                  />
-                  Logout
-                </Link>
-              </MenuItem>
-            </Menu>
+                  <MenuItem>
+                    <Link
+                      to="/cart"
+                      style={{
+                        textDecoration: "none",
+                        color: "#262626",
+                        fontSize: "1.2rem",
+                        fontWeight: "500",
+                        fontFamily: "Poppins",
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faShoppingCart}
+                        style={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      Cart
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      to="#"
+                      style={{
+                        textDecoration: "none",
+                        color: "#5A5A5A",
+                        fontSize: "1.2rem",
+                        fontWeight: "500",
+                        fontFamily: "Poppins",
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faRightFromBracket}
+                        style={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </Container>
