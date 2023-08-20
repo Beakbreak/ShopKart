@@ -5,10 +5,10 @@ This is a Personalized Product Recommender system based E-commerce website. As t
 
 ## Table of Contents
 
-### Features[#features]
-### Installation[#installation]
-### Configuration[#configuration]
-### Usage[#usage]
+### [Features](#features)
+### [Installation](#installation)
+### [Configuration](#configuration)
+### [Usage](#usage)
 
 ## Features
 - A Single Value Decomposition based Flask API
