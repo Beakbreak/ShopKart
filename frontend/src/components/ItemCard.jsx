@@ -1,12 +1,11 @@
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Typography } from "@mui/material";
+import { Typography, IconButton } from "@mui/material";
 
 const ItemCard = ({ item }) => {
   return (
-    <div className="w-full grid grid-cols-5 mb-8 border py-4">
-      <div className="flex col-span-5 md:col-span-2 items-center gap-4 ml-4">
-        {/* <DeleteIcon className="text-primeColor hover:text-red-500 duration-300 cursor-pointer" /> */}
+    <div className="max-content mb-8 border py-4">
+      <div className="flex items-center gap-4 ml-4">
         <img className="w-32 h-32" src={item.image} alt="productImage" />
         <div className="flex flex-col space-y-2">
           <Typography
@@ -28,16 +27,24 @@ const ItemCard = ({ item }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 text-lg col-span-5 mt-4 ml-4">
-        <span className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300">
+      <div className="flex items-center gap-4 text-lg mt-4 ml-4">
+        <span
+          className="w-6 h-6 bg-gray-100 text-2xl flex items-center 
+            justify-center hover:bg-gray-300 cursor-pointer duration-300 
+            border-[1px] border-gray-300 hover:border-gray-300"
+        >
           -
         </span>
         <p>{item.amount}</p>
-        <span className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300">
+        <span
+          className="w-6 h-6 bg-gray-100 text-2xl flex items-center 
+            justify-center hover:bg-gray-300 cursor-pointer duration-300 
+            border-[1px] border-gray-300 hover:border-gray-300"
+        >
           +
         </span>
       </div>
-      <div className="flex items-center gap-4 text-lg col-span-5 mt-4 ml-4">
+      <div className="flex items-center gap-4 text-lg mt-4 ml-4">
         <Typography
           sx={{
             fontFamily: "DM Sans",
@@ -48,6 +55,14 @@ const ItemCard = ({ item }) => {
           <span className="font-bold">Total Amount : </span>$
           {item.amount * item.price}
         </Typography>
+        <IconButton
+          className="bg-gray-100 text-2xl hover:bg-gray-300 
+          hover:text-red-500 border-[1px] border-gray-300 
+          hover:border-gray-300 duration-300"
+          aria-label="Delete"
+        >
+          <DeleteIcon />
+        </IconButton>
       </div>
     </div>
   );
