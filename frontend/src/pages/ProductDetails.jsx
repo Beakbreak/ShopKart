@@ -57,7 +57,7 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="flex justify-center h-screen mt-16 md:mt-8 md:h-[90vh]">
+      <div className="flex justify-center mt-16 md:mt-8">
         {loading ? (
           <div className="flex justify-center items-center">
             <CircularProgress />
