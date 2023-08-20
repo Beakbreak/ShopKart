@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User");
+const Product = require("../models/Products");
 const passport = require("passport");
 require("../passport/auth");
 
@@ -53,6 +54,13 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(new ErrorResponse("User not found", 404));
+  }
+
+  if (user.recommendations.length !== 0) {
+    const recommendations = await Product.find({
+      asin: { $in: user.recommendations },
+    });
+    user.recommendations = recommendations;
   }
 
   res.status(200).json({

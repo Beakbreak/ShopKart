@@ -8,10 +8,10 @@ const errorHandler = (err, req, res, next) => {
   console.log(err);
 
   // Mongoose bad ObjectId
-  if (err.name === "CastError") {
-    const message = `Resource not found`;
-    error = new ErrorResponse(message, 404);
-  }
+  // if (err.name === "CastError") {
+  //   const message = `Resource not found`;
+  //   error = new ErrorResponse(message, 404);
+  // }
 
   // Mongoose duplicate key
   if (err.code === 11000) {
