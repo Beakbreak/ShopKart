@@ -60,7 +60,9 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     const recommendations = await Product.find({
       asin: { $in: user.recommendations },
     });
-    user.recommendations = recommendations;
+
+    // Stringify the recommendations array
+    user.recommendations = JSON.stringify(recommendations);
   }
 
   res.status(200).json({

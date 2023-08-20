@@ -3,6 +3,7 @@ import bgimg from "../assets/bgimg.jpg";
 import { Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import SkeletonCard from "../components/SkeletonCard";
+import { AuthProvider } from "../store/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { sendCartData, fetchCartData } from "../store/CartActions";
 
@@ -12,6 +13,11 @@ let isMounted = true;
 export default function Dashboard() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const {user} = useContext(AuthProvider);
+  let products = "";
+  if(user.userData && user.userData.recommendations.length > 0){
+    products = JSON.parse(user.userData.recommendations);
+  }
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,6 +59,39 @@ export default function Dashboard() {
           className="w-screen h-[25rem] object-cover px-8 md:h-[30rem]"
         />
       </div>
+
+      {products != "" && (
+        <div>
+        <Typography
+          sx={{
+            fontFamily: "DM Sans",
+            fontSize: "2rem",
+            fontWeight: "600",
+            padding: "2rem",
+            textAlign: { xs: "center", md: "left" },
+          }}
+        >
+          Recommendations
+        </Typography>
+        {loading ? (
+          <Grid container spacing={4} className="px-8 mb-16">
+            {[...Array(12)].map((_, index) => (
+              <Grid item xs={12} sm={4} md={3} key={index}>
+                <SkeletonCard />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Grid container spacing={4} className="px-8 mb-16">
+            {products.map((product) => (
+              <Grid item xs={12} sm={6} md={3} key={product._id}>
+                <ProductCard product={product} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </div>
+      )}
 
       <div>
         <Typography
