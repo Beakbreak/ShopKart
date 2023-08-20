@@ -1,22 +1,26 @@
 import React, { useEffect, useState, useContext } from "react";
-import Navbar from "../components/Navbar";
 import bgimg from "../assets/bgimg.jpg";
 import { Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import SkeletonCard from "../components/SkeletonCard";
-import CartContext from "../hooks/CartContext";
+import { useDispatch, useSelector } from "react-redux";
+import { sendCartData, fetchCartData } from "../store/CartActions";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+let isMounted = true;
 
 export default function Dashboard() {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  let ctx = useContext(CartContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
+        const response = await fetch(`${BACKEND_URL}/api/v1/products`);
         const result = await response.json();
-        setProductsData(result);
+        setProductsData(result.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,15 +31,21 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) {
-      ctx = storedCart;
+    if (isMounted) {
+      isMounted = false;
+      return;
     }
-  }, []);
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
+  }, [cart, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center items-center mt-8">
         <img
           src={bgimg}
@@ -67,7 +77,7 @@ export default function Dashboard() {
         ) : (
           <Grid container spacing={4} className="px-8 mb-16">
             {productsData.map((product) => (
-              <Grid item xs={12} sm={6} md={3} key={product.id}>
+              <Grid item xs={12} sm={6} md={3} key={product._id}>
                 <ProductCard product={product} />
               </Grid>
             ))}

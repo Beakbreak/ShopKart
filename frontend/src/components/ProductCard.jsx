@@ -8,38 +8,54 @@ import {
   Rating,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import CartContext from "../hooks/CartContext";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../store/CartSlice";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function ProductCard({ product }) {
-  let ctx = useContext(CartContext);
+  const dispatch = useDispatch();
   const [hovered, setHovered] = useState(false);
 
-  const handleSpanClick = (event) => {
+  const imageURL = product.imageURLHighRes[0];
+  const imageURLs = imageURL.match(/'(.*?)'/g);
+  const firstImageURL =
+    imageURLs && imageURLs.length > 0 ? imageURLs[0].replace(/'/g, "") : "";
+
+  const description = product?.description[0] || "";
+  const extractedDescriptionMatch = description.match(/'([^']+)'/);
+  const extractedDescription = extractedDescriptionMatch
+    ? extractedDescriptionMatch[1]
+        .replace(/(<([^>]+)>)/gi, "") // remove HTML tags
+        .replace(/\\n/gi, "") // remove new lines
+        .replace(/\\/gi, "") // remove backslashes
+        .replace(/\s+/g, " ") // remove extra spaces
+        .trim() // trim leading and trailing spaces
+    : "";
+
+  const handleSpanClick = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     const newItem = {
-      name: product.title,
-      image: product.image,
-      price: product.price,
-      id: product.id,
-      amount: 1,
+      id: product._id,
+      price: product.price.replace("$", ""),
+      title: product.title,
+      image: firstImageURL,
+      quantity: 1,
     };
 
-    ctx.addItem(newItem);
-
-    localStorage.setItem(
-      "cart",
-      JSON.stringify({
-        items: ctx.items,
-        totalAmount: ctx.totalAmount,
-      })
-    );
+    dispatch(cartActions.addItemToCart(newItem));
   };
 
   return (
     <Link
-      to={`/product/${product.id}`}
+      to={`/product/${product._id}`}
+      state={{
+        asin: product.asin,
+        imageURL: firstImageURL,
+        description: extractedDescription,
+      }}
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <Card
@@ -66,7 +82,7 @@ export default function ProductCard({ product }) {
               objectFit: "contain",
               paddingTop: "1rem",
             }}
-            image={product.image}
+            image={firstImageURL}
             alt={product.title}
             loading="lazy"
           />
@@ -95,6 +111,9 @@ export default function ProductCard({ product }) {
           <CardContent sx={{ flexGrow: 1 }}>
             <Typography
               sx={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
                 fontFamily: "DM Sans",
                 fontSize: "18px",
                 fontWeight: "600",
@@ -106,7 +125,7 @@ export default function ProductCard({ product }) {
             </Typography>
             <Rating
               name="read-only"
-              value={product.rating.rate}
+              value={product.avgRating}
               readOnly
               sx={{
                 marginBottom: "0.5rem",
@@ -119,7 +138,7 @@ export default function ProductCard({ product }) {
                 fontWeight: "400",
               }}
             >
-              Price: <span style={{ color: "red" }}>${product.price}</span>
+              Price: <span style={{ color: "red" }}>{product.price}</span>
             </Typography>
           </CardContent>
         </CardActionArea>

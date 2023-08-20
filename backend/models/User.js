@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a profile picture"],
   },
+  recommendations: {
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

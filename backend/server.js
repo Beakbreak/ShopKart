@@ -21,6 +21,8 @@ connectDB();
 
 // Route files
 const auth = require("./routes/auth");
+const products = require("./routes/products");
+const cart = require("./routes/cart");
 
 const app = express();
 
@@ -51,6 +53,8 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount routers
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/products", products);
+app.use("/api/v1/cart", cart);
 
 app.use(errorHandler);
 

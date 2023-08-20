@@ -2,6 +2,7 @@ import pandas as pd
 import time
 import numpy as np
 import threading
+
 # from bson import ObjectId
 from operator import concat
 from functools import reduce
@@ -17,13 +18,14 @@ users_collection = db["users"]
 app = Flask(__name__)
 
 cors = CORS(app)
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 df=pd.read_csv("finalTrainReviews.csv")
 
 
 @app.route('/api/train', methods = ['GET'])
 @cross_origin()
-async def trainer():
+def trainer():
     def train():
         print("training started")
         userIds=users_collection.distinct("_id")
@@ -65,26 +67,28 @@ async def trainer():
         print("updated database")
     training_thread = threading.Thread(target=train)
     training_thread.start()
-
+    # response.headers.add("Access-Control-Allow-Origin", "*")
     return jsonify({"message":"Training"})
 
 @app.route("/api/updateRating",methods=['GET','POST'])
 @cross_origin()
 def updateRating():
     body = request.get_json()
-    print(users_collection.find_one({"_id":ObjectId("64e1f158a3aa497976b415da")}))
     userID = body['userID']
     asin = body['asin']
     rating = body['rating']
-    df.loc[len(df.index)]=[userID,asin,rating]
-    return jsonify(df.loc[len(df.index)-1].to_dict())
+    response=jsonify({"message":"Rating Updated"})
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route("/dev/closeServer",methods=['GET'])
-@cross_origin()
+@cross_origin(origins="*")
 def terminate():
     df.to_csv("finalTrainReviews_v2.csv",index=False)
-    return jsonify({"message":"Server Closed! Data saved"})
+    response=jsonify({"message":"Rating Updated"})
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
  
 if __name__ == '__main__':
-    app.run()
+    app.run(port=3000)

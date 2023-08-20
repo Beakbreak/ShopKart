@@ -16,8 +16,7 @@ import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
-import axios from "axios";
-import { AuthProvider } from "../hooks/AuthContext";
+import { AuthProvider } from "../store/AuthContext";
 
 const HelpButton = styled(Box)`
   align-items: center;
