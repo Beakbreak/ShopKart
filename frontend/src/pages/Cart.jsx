@@ -24,7 +24,7 @@ export default function Cart() {
       <div className="max-w-container min-h-screen mx-auto px-4">
         {products.length > 0 ? (
           <div className="pb-20">
-            <div className="mt-5">
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-8">
               {products.map((item) => (
                 <div key={item.id}>
                   <ItemCard item={item} />
