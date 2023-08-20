@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { CircularProgress, Rating } from "@mui/material";
 import { AuthProvider } from "../store/AuthContext";
+import { enqueueSnackbar } from "notistack";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const FLASK_URL = import.meta.env.VITE_FLASK_BACKEND_URL;
@@ -47,11 +48,11 @@ export default function ProductDetails() {
       const result = await response.json();
       if (result.message) {
         setSubmittingRating(false);
-        console.log("Rating submitted successfully");
+        enqueueSnackbar("Rating submitted successfully",{variant:"success"});
       }
     } catch (error) {
       setSubmittingRating(false);
-      console.error("Error submitting rating:", error);
+      enqueueSnackbar("Error submitting rating:", {variant:"error"});
     }
   };
 

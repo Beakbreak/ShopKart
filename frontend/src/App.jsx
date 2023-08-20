@@ -6,10 +6,12 @@ import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import { SnackbarProvider } from "notistack";
 
 export default function App() {
   return (
     <>
+    <SnackbarProvider />
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
