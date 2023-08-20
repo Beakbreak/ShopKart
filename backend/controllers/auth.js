@@ -60,3 +60,13 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     data: user,
   });
 });
+
+// @desc   Log user out / clear cookie
+// @route POST /api/v1/auth/logout
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.clearCookie("token");
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});

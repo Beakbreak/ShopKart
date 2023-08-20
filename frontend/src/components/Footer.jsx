@@ -9,7 +9,7 @@ import instagramIcon from "../assets/icon-instagram.svg";
 export default function Footer() {
   return (
     <footer className="bg-black">
-      <div className="container max-w-6xl py-10 mx-auto mt-36 md:mt-0">
+      <div className="container max-w-6xl py-10 mx-auto mt-32 md:mt-8">
         <div className="flex flex-col items-center mb-8 space-y-6 md:flex-row md:space-y-0 md:justify-between md:items-start">
           <div className="flex flex-col items-center space-y-8 md:items-start md:space-y-4">
             <Link to="/" className="h-8 text-decoration-none">

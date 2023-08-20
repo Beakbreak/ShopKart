@@ -62,6 +62,21 @@ export default function Navbar() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/v1/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        validateToken();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <AppBar
       position="static"
@@ -188,8 +203,8 @@ export default function Navbar() {
                     </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link
-                      to="#"
+                    <div
+                      onClick={handleLogout}
                       style={{
                         textDecoration: "none",
                         color: "#5A5A5A",
@@ -205,7 +220,7 @@ export default function Navbar() {
                         }}
                       />
                       Logout
-                    </Link>
+                    </div>
                   </MenuItem>
                 </Menu>
               </Box>
