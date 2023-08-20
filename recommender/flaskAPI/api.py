@@ -66,7 +66,7 @@ def trainer():
             best_items_dict[reviewers[i]] = lis
         print("training complete!")
         for id in userIds:
-            if best_items_dict.has_key(str(id)):
+            if str(id) in best_items_dict:
                 users_collection.update_one({"_id": ObjectId(id)}, {
                     "$set": {"recommendations": reduce(concat, best_items_dict[str(id)])}})
         print("updated database")
