@@ -16,7 +16,7 @@ pymongo
 
 requests
 requests-oauthlib
-
+gunicorn
 tensorboard
 tensorboard-data-server
 tensorflow
