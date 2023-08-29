@@ -3,6 +3,13 @@
 ## Description
 This is a Personalized Product Recommender system based E-commerce website. As the user interacts more and more with website by rating the products, they receive refined suggestions.
 
+## Live Servers
+- Frontend (Client) : https://shopkart-nu.vercel.app/
+- Backend (Server) : https://shopkart-backend-pg6q.onrender.com/
+- Recommender System (Colab) : http://b292-35-202-224-77.ngrok.io/
+
+Note: Recommender System might crash due to large volume of training requests as it is hosted on a free server with limited resources, please contact one of the contributors to help you access the recommendation services.
+
 ## Table of Contents
 
 - ### [Features](#features)
