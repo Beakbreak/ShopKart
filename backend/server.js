@@ -51,7 +51,7 @@ app.use(session({
 app.use(cookieParser());
 
 app.use(passport.initialize());
-app.use(passport.authenticate('session'));
+app.use(passport.session());
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
