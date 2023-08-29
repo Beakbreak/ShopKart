@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const errorHandler = require("./middleware/error");
 const passport = require("passport");
 const cors = require("cors");
+const session = require("express-session");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -40,7 +41,12 @@ app.use(cors(corsOptions));
 
 // Body parser
 app.use(express.json());
-
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true },
+}))
 // Cookie parser
 app.use(cookieParser());
 
