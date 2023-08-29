@@ -6,7 +6,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:${process.env.PORT}/api/v1/auth/google/callback`,
+      callbackURL: `https://shopkart-backend-pg6q.onrender.com/api/v1/auth/google/callback`,
     },
     (accessToken, refreshToken, profile, done) => {
       done(null, profile);

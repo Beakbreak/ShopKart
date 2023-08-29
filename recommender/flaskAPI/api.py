@@ -8,6 +8,7 @@ from operator import concat
 from functools import reduce
 from flask_cors import CORS, cross_origin
 from flask import Flask, jsonify, request
+from flask_ngrok import run_with_ngrok
 import tensorflow.compat.v1 as tf
 import pymongo
 from bson.objectid import ObjectId
@@ -17,7 +18,7 @@ client = pymongo.MongoClient(
 db = client["shopkart"]
 users_collection = db["users"]
 app = Flask(__name__)
-
+run_with_ngrok(app)
 cors = CORS(app)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -100,4 +101,4 @@ def terminate():
 
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run()

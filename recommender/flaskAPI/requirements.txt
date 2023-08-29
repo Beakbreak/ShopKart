@@ -23,4 +23,5 @@ tensorflow
 tensorflow-estimator
 tensorflow-io-gcs-filesystem
 termcolor
+flask-ngrok
 
