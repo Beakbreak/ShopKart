@@ -11,6 +11,7 @@ const AuthContextProvider = (props) => {
   });
 
   const validateToken = async () => {
+    
     try {
       if (true) {
         const response = await axios.get(
